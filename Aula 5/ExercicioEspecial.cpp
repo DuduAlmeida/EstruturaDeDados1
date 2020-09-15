@@ -17,7 +17,7 @@ typedef struct
     int top;
 } stack;
 
-void pause (float delay1)
+void pause (float delay1);
 void op_inserir(fila *q);
 void op_remover(fila *q);
 void op_mostrar(fila *q);
