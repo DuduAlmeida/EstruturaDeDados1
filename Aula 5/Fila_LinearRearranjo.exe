@@ -1,0 +1,158 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+
+#define MAX 100
+
+typedef struct {
+	char items[MAX];
+	int inicio, fim;
+} fila;
+
+void op_mostrar(fila *q);
+void pause (float);
+
+void inicializar_fila(fila *q);
+bool fila_vazia(fila *q);
+bool fila_cheia(fila *q);
+void inserir_fila(char v,fila *q);
+char remover_fila(fila *q);
+int prox_indice(int i);
+
+
+
+int main (void) 
+{
+ int qtde,c = 0;
+ float clk;
+ srand(time(NULL));
+ fila q1, q2, q3, mq;
+ inicializar_fila(&q1);
+ inicializar_fila(&q2);
+ inicializar_fila(&q3);
+ inicializar_fila(&mq);
+ printf("Simulador de Trafego com 3 Filas\n");
+ printf("=====================================================================\n\n");
+ printf("Quantos elementos no trafego? (3 a 10 para melhor visualizacao): ");
+ scanf("%i",&qtde);
+ printf("Qual valor do clock da simulacao em segundos: ");
+ scanf("%f",&clk);
+ c = 1;
+ while (c <= qtde)
+ {
+ 	inserir_fila(rand()%10+'0',&q1);
+ 	inserir_fila(rand()%10+'0',&q2);
+ 	inserir_fila(rand()%10+'0',&q3);
+	printf(">>>>>> FILA 1");
+ 	op_mostrar(&q1);
+	pause(clk);
+ 	printf(">>>>>> FILA 2");
+ 	op_mostrar(&q2);
+	pause(clk);
+ 	printf(">>>>>> FILA 3");
+ 	op_mostrar(&q3);
+ 	pause(clk);
+ 	printf(">>>>>> FILA MASTER");
+ 	op_mostrar(&mq);
+ 	pause(clk);
+ 	++c;
+  } 
+ c = 1;
+ while (c <= qtde)
+ {
+ 	inserir_fila(remover_fila(&q1),&mq);
+ 	printf(">>>>>> FILA MASTER");
+ 	op_mostrar(&mq);
+ 	pause(clk);
+	printf(">>>>>> FILA 1");
+ 	op_mostrar(&q1);
+	pause(clk);
+
+ 	inserir_fila(remover_fila(&q2),&mq);
+ 	printf(">>>>>> FILA MASTER");
+ 	op_mostrar(&mq);
+ 	pause(clk);
+	printf(">>>>>> FILA 2");
+ 	op_mostrar(&q2);
+	pause(clk);
+
+ 	inserir_fila(remover_fila(&q3),&mq);
+ 	printf(">>>>>> FILA MASTER");
+ 	op_mostrar(&mq);
+ 	pause(clk);
+	printf(">>>>>> FILA 3");
+ 	op_mostrar(&q3);
+	pause(clk);
+
+ 	++c;
+  } 
+
+}
+
+void pause (float delay1) {
+   if (delay1<0.001) return; // pode ser ajustado e/ou evita-se valores negativos.
+   float inst1=0, inst2=0;
+   inst1 = (float)clock()/(float)CLOCKS_PER_SEC;
+   while (inst2-inst1<delay1) inst2 = (float)clock()/(float)CLOCKS_PER_SEC;
+   return;
+}
+
+void inicializar_fila(fila *q)
+{
+	q->inicio = MAX-1;
+	q->fim =  MAX-1;
+}
+
+int prox_indice(int i)
+{
+	return((i+1) == MAX ? 0 : ++i);
+}
+
+bool fila_vazia(fila *q)
+{
+	return(q->inicio == q->fim);
+}
+
+bool fila_cheia(fila *q)
+{
+	return(prox_indice(q->fim) == q->inicio);
+}
+
+void inserir_fila(char v,fila *q)
+{
+	q->fim = prox_indice(q->fim);
+	q->items[q->fim] = v;
+}
+
+char remover_fila(fila *q)
+{
+	q->inicio = prox_indice(q->inicio);
+	return(q->items[q->inicio]);
+}
+
+
+void op_mostrar(fila *q)
+{
+	if(!fila_vazia(q))
+	{
+		printf("\n Inicio = %d \t Fim = %d\n",q->inicio,q->fim);
+		int i;
+		i = prox_indice(q->inicio);
+		while (i != q->fim)
+		{
+			printf("%i\t",i);
+			i = prox_indice(i);
+		}
+		printf("%i\t",i);
+		printf("\n");
+		i = prox_indice(q->inicio);
+		while (i != q->fim)
+		{
+			printf("%c\t",q->items[i]);
+			i = prox_indice(i);
+		}
+		printf("%c\t",q->items[i]);
+	}
+	printf("\n");
+}

@@ -1,0 +1,48 @@
+
+/*
+for(i...;i++)
+    while(v[i] != target){
+        vet[j] = pop(v)
+        j++
+    }
+    pop()    
+*/
+
+/*
+    while(!empty(vetorPrincipal)){
+
+        if(v[i] != ' '){
+            v[i] = pop(vetorPrincipal)
+            push(v[i], vetorPrincipal)
+            cont1++
+        }
+        i++
+    }
+
+    for(i,j...j--,i++)
+    if(v[j] == vetorPrincipal[i] && vetorPrincipal[i] != ' '){
+
+        cont2++
+    }
+
+    if(cont1 == cont2) palindromo = true
+*/
+/*
+
+expressão de entrada = ex
+pilha S1, S2
+j = tamanho(ex)-1
+para i=0 até (tamanho(ex)-1)
+	se (x[i] != ‘ ’)
+		então push(ex[i],S1)
+			push(ex[j],S2)
+			--j; 
+palindromo= “Verdadeiro”
+para i=0 até (tamanho(ex)-1)
+	se pop(S1)!= pop(S2) 
+		então
+			palíndromo = “Falso”
+			parar
+retornar (palindromo)
+
+*/
