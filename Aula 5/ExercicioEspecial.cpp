@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define MAX 5
+#define qtdCaixas 3
 
 typedef struct {
 	char items[MAX];
@@ -15,6 +17,7 @@ typedef struct
     int top;
 } stack;
 
+void pause (float delay1)
 void op_inserir(fila *q);
 void op_remover(fila *q);
 void op_mostrar(fila *q);
@@ -38,38 +41,34 @@ int stacktop(stack *s);
 
 int main()
 {
-	int op;
+	int cont = 1;
 	fila pessoas;
+    stack caixa1, caixa2, caixa3;
+    float clk;
+
+    caixa1.top=-1;
+    caixa2.top=-1;
+    caixa3.top=-1;
 	inicializar_fila(&pessoas);
-	while (true)
+
+    printf("Qual valor do clock da simulacao em segundos: ");
+    scanf("%f",&clk);
+
+	while (cont <= qtdCaixas)
 	{
-		system("CLS");
-		printf("<< MENU >>");
-		printf("\n1 - Inserir");
-		printf("\n2 - Remover");
-		printf("\n3 - Listar");
-		printf("\n0 - Sair");
-		printf("\nOpcao: ");
-		scanf("%d",&op);
-		switch (op)
-		{
-			case 1:
-				op_inserir(&Q);
-				break;
-			case 2:
-				op_remover(&Q);
-				break;
-			case 3:
-				op_mostrar(&Q);
-				break;
-			case 0:
-				exit(1);
-				break;	
-		}
+		// Amágica acontece a
 	}
 }
 
 
+
+void pause (float delay1) {
+   if (delay1<0.001) return; // pode ser ajustado e/ou evita-se valores negativos.
+   float inst1=0, inst2=0;
+   inst1 = (float)clock()/(float)CLOCKS_PER_SEC;
+   while (inst2-inst1<delay1) inst2 = (float)clock()/(float)CLOCKS_PER_SEC;
+   return;
+}
 
 void op_inserir(fila *q)
 {
