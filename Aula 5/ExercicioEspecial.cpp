@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <time.h>
 
-#define MAX 5
-#define qtdCaixas 3
+#define MAX 400
+#define qtdMaxCaixas 10
 
 typedef struct {
 	char items[MAX];
@@ -15,12 +16,11 @@ typedef struct
 {
     int items[MAX];
     int top;
+	int tempoRestante;
+	int tempoSolicitado;
 } stack;
 
 void pause (float delay1);
-void op_inserir(fila *q);
-void op_remover(fila *q);
-void op_mostrar(fila *q);
 
 //Funções Referente a estrutura das filas:
 void inicializar_fila(fila *q);
@@ -38,25 +38,34 @@ int pop(stack *s);
 int stacktop(stack *s);
 
 
+void inicializarGuiches(int quantidade, stack ** guiches);
+
 
 int main()
 {
-	int cont = 1;
+	int cont = 1, qtdCaixas, quantidadeCiclos;
 	fila pessoas;
-    stack caixa1, caixa2, caixa3;
-    float clk;
+    stack *guiches = NULL;
+    float clk ;
 
-    caixa1.top=-1;
-    caixa2.top=-1;
-    caixa3.top=-1;
-	inicializar_fila(&pessoas);
+    
+	// inicializar_fila(&pessoas);
 
+	printf("Quantos guiches serao utilizados: ");
+	fflush(stdin);
+	scanf("%i", &qtdCaixas);
+
+	inicializarGuiches(qtdCaixas, &guiches);
     printf("Qual valor do clock da simulacao em segundos: ");
-    scanf("%f",&clk);
+	fflush(stdin);
+    scanf("%f", &clk);
+	printf("Quantidade de Ciclos: ");
+	fflush(stdin);
+    scanf("%i", &quantidadeCiclos);
 
-	while (cont <= qtdCaixas)
+	while (cont <= quantidadeCiclos)
 	{
-		// Amágica acontece a
+		// A mágica acontece aqui
 	}
 }
 
@@ -69,72 +78,6 @@ void pause (float delay1) {
    while (inst2-inst1<delay1) inst2 = (float)clock()/(float)CLOCKS_PER_SEC;
    return;
 }
-
-void op_inserir(fila *q)
-{
-	char v;
-	if (!fila_cheia(q))
-	{
-		printf("\n\t\tQual o elemento a inserir: ");
-		fflush(stdin);
-		scanf("%c",&v);
-		inserir_fila(v,q);
-		printf("\n\t\tElemento %c inserido com sucesso!\n\t\t",v);
-	}
-	else
-		printf("\n\t\tFila ja esta cheia!\n\t\t");	
-	system("PAUSE");	
-}
-
-void op_remover(fila *q)
-{
-	char v;
-	if (!fila_vazia(q))
-	{
-		v = remover_fila(q);
-		printf("\n\t\tElemento %c foi removido com sucesso!\n\t\t",v);
-	}
-	else
-		printf("\n\t\tFila esta vazia!\n\t\t");	
-	system("PAUSE");	
-}
-
-void op_mostrar(fila *q)
-{
-	printf("\nESPACO TODO");
-	printf("\n Inicio = %d \t Fim = %d\n",q->inicio,q->fim);
-	for(int i=0;i<MAX;i++)
-		printf("%i\t",i);
-	printf("\n");
-	for(int i=0;i<MAX;i++)
-		printf("%c\t",q->items[i]);
-	
-	if(!fila_vazia(q))
-	{
-		printf("\n\nFILA");
-		printf("\n Inicio = %d \t Fim = %d\n",q->inicio,q->fim);
-		int i;
-		i = prox_indice(q->inicio);
-		while (i != q->fim)
-		{
-			printf("%i\t",i);
-			i = prox_indice(i);
-		}
-		printf("%i\t",i);
-		printf("\n");
-		i = prox_indice(q->inicio);
-		while (i != q->fim)
-		{
-			printf("%c\t",q->items[i]);
-			i = prox_indice(i);
-		}
-		printf("%c\t",q->items[i]);
-	}
-	printf("\n");
-	system("PAUSE");
-
-}
-
 
 
 //Funções Referente a estrutura das filas:
@@ -201,4 +144,65 @@ int pop(stack *s){
 int stacktop(stack *s){
 
     return s->items[s->top];
+}
+
+void mostrarPilha( stack *s, char nomePilha[MAX] ){
+
+    int aux[MAX],
+    i = 0,
+    tamanhoPilha = 0,
+	tamanhoNomePilha = strlen(nomePilha);
+	char auxNomePilha[MAX];
+
+	while (i <  tamanhoNomePilha)
+    {
+        auxNomePilha[i] = '='; 
+        i++;
+    }
+	auxNomePilha[i] = '\0';
+	i = 0;
+
+    while (s->top >= 0)
+    {
+        aux[i] = pop(s); 
+        i++;
+    }
+    tamanhoPilha = i;
+    i=0;
+
+    printf("\n============\t%s\t============\n", nomePilha);
+    while(i < tamanhoPilha)
+    {
+        if(i != 0)
+            printf("\t%i", aux[i]);
+        else 
+            printf("%i", aux[i]);
+        push(aux[i], s);
+        i++;
+    }
+    printf("\n================%s==================", auxNomePilha);
+}
+
+
+//Funções Referente aos guichês:
+void inicializarGuiches(int quantidade, stack ** guiches){
+
+	int i;
+
+	if( (*guiches = (stack*) realloc(*guiches, quantidade * sizeof(stack))) == NULL){
+		printf("\nErro na alocacao dos guiches\n");
+		exit(1);
+	}
+
+	// printf("\n%i", quantidade);
+
+	for (i = 0; i < quantidade; i++)
+	{
+		(*guiches + i)->tempoRestante = 0;
+		(*guiches + i)->tempoSolicitado = 0;
+		(*guiches + i)->top = -1;
+		push(0, *guiches + i);
+		// mostrarPilha(*guiches + i, "Guiche [ ]");
+	}
+		
 }
