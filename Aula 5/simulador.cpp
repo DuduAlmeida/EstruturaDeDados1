@@ -254,10 +254,12 @@ void guicheAtualizarTempo(stack *guiche, int qtdGuiches, int tempo){
 	for(i=0;i<qtdGuiches;i++){
 		(guiche+i)->tempoRestante -= tempo;
 		
-		if( (guiche+i)->tempoRestante <= 0 ){
-			(guiche+i)->tempoRestante = 0;
+		if( (guiche+i)->tempoRestante == 0 && (guiche+i)->tempoRequisitado != 0){			
 			//Salva na pilha o "id"/ tempo requisitado pelo cliente:
 			push((guiche+i)->tempoRequisitado, (guiche+i));
+			(guiche+i)->tempoRequisitado = 0;
+		}else if((guiche+i)->tempoRestante < 0) {
+			(guiche+i)->tempoRestante = 0;
 			(guiche+i)->tempoRequisitado = 0;
 		}
 	}

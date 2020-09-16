@@ -40,6 +40,33 @@ int stacktop(stack *s){
     return s->items[s->top];
 }
 
+void mostrarPilha( stack *s){
+    int aux[LIMITE],
+    i = 0,
+    tamanhoPilha = 0;
+
+    while (s->top >= 0)
+    {
+        aux[i] = pop(s); 
+        i++;
+    }
+
+    tamanhoPilha = i;
+    i=0;
+
+    printf("\n============\tPilha\t============\n");
+    while(i < tamanhoPilha)
+    {
+        if(i != 0)
+            printf("\t%i", aux[i]);
+        else 
+            printf("%i", aux[i]);
+        push(aux[i], s);
+        i++;
+    }
+    printf("\n============\t     \t============\n");
+}
+
 int main(int argc, char *argv[]) {
 	
 	int aux;
@@ -48,6 +75,8 @@ int main(int argc, char *argv[]) {
 
     push(3,&s1);
     push(8,&s1);
+
+    mostrarPilha(&s1);
 
     if(empty(&s1))
         printf("\nPilha Vazia");
