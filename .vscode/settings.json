@@ -2,6 +2,7 @@
     "files.associations": {
         "EX1.C": "c",
         "EX2.C": "c",
-        "queue": "cpp"
+        "queue": "cpp",
+        "cmath": "cpp"
     }
 }
