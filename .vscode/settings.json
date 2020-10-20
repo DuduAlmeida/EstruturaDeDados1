@@ -3,6 +3,9 @@
         "EX1.C": "c",
         "EX2.C": "c",
         "queue": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "xutility": "cpp",
+        "utility": "cpp",
+        "vector": "cpp"
     }
 }
