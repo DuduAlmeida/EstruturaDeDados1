@@ -30,7 +30,8 @@ no *makeNode(int n);
 void insert(int n, no **t);
 bool search(int n, no **t);
 int calculateShallow(no **t, int indice);
-int countLeafNode(no **t, int cont);
+int countLeafNode(no *t);
+int countNode(no *t);
 
 /* #Endregion Functions*/
 
@@ -62,7 +63,8 @@ int main()
     // printf("%s\n\n", search(aux, &tree) ? "Numero existente" : "Numero inexistente");
 
     printf("\n\nProfundidade: %i", calculateShallow(&tree, 0));
-    printf("\nQuantidade de nos folhas: %i", countLeafNode(&tree, 0));
+    printf("\nQuantidade de nos folhas: %i", countLeafNode(tree));
+    printf("\nQuantidade de nos: %i", countNode(tree));
 }
 
 /* #Endregion MainAplication*/
@@ -155,10 +157,12 @@ bool search(int n, no **t)
         search(n, &((*t)->left));
 }
 
-int calculateShallow(no **t, int indice){
+int calculateShallow(no **t, int indice)
+{
     int left, right;
 
-    if(*t == NULL){
+    if (*t == NULL)
+    {
         return indice - 1;
     }
 
@@ -168,15 +172,27 @@ int calculateShallow(no **t, int indice){
     return right > left ? right : left;
 }
 
-int countLeafNode(no **t, int cont){
-    int left, right;
+int countLeafNode(no *t)
+{
 
-    if(*t == NULL){
-        return cont + 1;
+    if (t == NULL)
+    {
+        return 0;
     }
 
-    right = calculateShallow(&((*t)->right), cont);
-    left = calculateShallow(&((*t)->left), cont);
+    else if(t->left == NULL && t->right == NULL) return 1;
 
-    return right > left ? right : left;
+    
+    
+    return (countLeafNode(t->left) + countLeafNode(t->right));
+}
+
+int countNode(no *t)
+{
+    if (t == NULL)
+    {
+        return 0;
+    }
+
+    else return(1 + countNode(t->left) + countNode(t->right));
 }
