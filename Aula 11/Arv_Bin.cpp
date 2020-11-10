@@ -3,7 +3,7 @@
 #include <conio.h>
 #include <stdbool.h>
 
-#define MAX 10
+#define MAX 12
 #define espaco 5
 
 struct no {
@@ -30,7 +30,7 @@ void draw_arvore_hor(no *arvore);
 
 int main()
 {
-	int v[MAX] = {6, 5, 8, 9, 7, 10, 2, 3, 4, 1};
+	int v[MAX] = {20, 11, 2, 17, 16, 14, 15, 18, 21, 30, 25, 36};
 	no *tree;
 	tree = NULL;
 	for(int i=0; i < MAX; i++)
