@@ -30,7 +30,7 @@ void draw_arvore_hor(no *arvore);
 
 int main()
 {
-	int v[MAX] = {20, 11, 2, 17, 16, 14, 15, 18, 21, 30, 25, 36};
+	int v[MAX] = {50, 17, 12, 9, 14, 23, 19, 72, 54, 67, 76};
 	no *tree;
 	tree = NULL;
 	for(int i=0; i < MAX; i++)
